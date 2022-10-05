@@ -115,6 +115,13 @@ data
 *.log.json
 work_dirs/
 mmseg/.mim
+pretrain/
 
 # Pytorch
 *.pth
+
+*DS_Store*
+vis/
+log/
+show_dirs/
+demo/maskclip_demo.ipynb

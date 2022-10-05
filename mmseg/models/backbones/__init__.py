@@ -12,19 +12,20 @@ from .mit import MixVisionTransformer
 from .mobilenet_v2 import MobileNetV2
 from .mobilenet_v3 import MobileNetV3
 from .resnest import ResNeSt
-from .resnet import ResNet, ResNetV1c, ResNetV1d
+from .resnet import ResNet, ResNetV1c, ResNetV1d, ResNetClip
 from .resnext import ResNeXt
 from .stdc import STDCContextPathNet, STDCNet
 from .swin import SwinTransformer
 from .timm_backbone import TIMMBackbone
 from .twins import PCPVT, SVT
 from .unet import UNet
-from .vit import VisionTransformer
+from .vit import VisionTransformer, VisionTransformerMaskclip
 
 __all__ = [
     'ResNet', 'ResNetV1c', 'ResNetV1d', 'ResNeXt', 'HRNet', 'FastSCNN',
     'ResNeSt', 'MobileNetV2', 'UNet', 'CGNet', 'MobileNetV3',
     'VisionTransformer', 'SwinTransformer', 'MixVisionTransformer',
     'BiSeNetV1', 'BiSeNetV2', 'ICNet', 'TIMMBackbone', 'ERFNet', 'PCPVT',
-    'SVT', 'STDCNet', 'STDCContextPathNet', 'BEiT', 'MAE'
+    'SVT', 'STDCNet', 'STDCContextPathNet', 'BEiT', 'MAE',
+    'ResNetClip', 'VisionTransformerMaskclip'
 ]

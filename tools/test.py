@@ -47,6 +47,14 @@ def parse_args():
     parser.add_argument('--show', action='store_true', help='show results')
     parser.add_argument(
         '--show-dir', help='directory where painted images will be saved')
+    parser.add_argument('--vis-output', action='store_true', help='visualize output maps')
+    parser.add_argument('--pavi', action='store_true', help='use PAVI instead of tensorboard')
+    parser.add_argument('--highlight', type=str, default='',
+        help='the rule to highlight certain classes for zero-shot settings,'
+        'e.g. 1_4_itv means split #1 out of the total 4 splits and apply interval strategy'
+        '(vs. ctn for continue strategy)')
+    parser.add_argument('--num-vis', type=int, default=10, help='number of to-visualize images')
+    parser.add_argument('--black-bg', action='store_true', help='black out the background pixels with ground truth')
     parser.add_argument(
         '--gpu-collect',
         action='store_true',
@@ -118,10 +126,11 @@ def parse_args():
 def main():
     args = parse_args()
     assert args.out or args.eval or args.format_only or args.show \
-        or args.show_dir, \
+        or args.show_dir or args.vis_output, \
         ('Please specify at least one operation (save/eval/format/show the '
-         'results / save the results) with the argument "--out", "--eval"'
-         ', "--format-only", "--show" or "--show-dir"')
+         'results / save the results / visualize semantic maps) with the argument '
+         '"--out", "--eval", "--format-only", "--show" or "--show-dir", '
+         '"--vis-output"')
 
     if args.eval and args.format_only:
         raise ValueError('--eval and --format_only cannot be both specified')
@@ -270,6 +279,14 @@ def main():
                 'Please use MMCV >= 1.4.4 for CPU training!'
         model = revert_sync_batchnorm(model)
         model = build_dp(model, cfg.device, device_ids=cfg.gpu_ids)
+        
+        if args.vis_output:
+            config_name = osp.basename(work_dir)
+            vis_output(model, data_loader, config_name, args.num_vis,
+                        args.highlight, args.black_bg, args.pavi)
+            print()
+            return
+
         results = single_gpu_test(
             model,
             data_loader,
