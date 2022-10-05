@@ -241,3 +241,33 @@ MMSegmentation is released under the Apache 2.0 license, while some specific fea
 - [MMEditing](https://github.com/open-mmlab/mmediting): OpenMMLab image and video editing toolbox.
 - [MMGeneration](https://github.com/open-mmlab/mmgeneration): OpenMMLab image and video generative models toolbox.
 - [MMDeploy](https://github.com/open-mmlab/mmdeploy): OpenMMLab Model Deployment Framework.
+
+
+
+## Jin Installation
+
+Installation script for my environment.
+
+```
+conda create -n mmhug -y python=3.8
+conda activate mmhug
+conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch
+pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu113/torch1.11/index.html
+pip install ftfy regex tqdm
+pip install git+https://github.com/openai/CLIP.git
+git clone https://github.com/Genie-Kim/mmseg_base.git
+cd mmseg_base
+pip install -v -e .
+
+# download clip pretrained models.
+python tools/maskclip_utils/convert_clip_weights.py --model ViT16 --backbone
+python tools/maskclip_utils/convert_clip_weights.py --model RN50 --backbone
+python tools/maskclip_utils/convert_clip_weights.py --model RN101 --backbone
+python tools/maskclip_utils/convert_clip_weights.py --model ViT16
+python tools/maskclip_utils/convert_clip_weights.py --model RN101
+python tools/maskclip_utils/convert_clip_weights.py --model RN50
+python tools/maskclip_utils/prompt_engineering.py --model ViT16 --class-set context
+python tools/maskclip_utils/prompt_engineering.py --model RN50 --class-set context
+python tools/maskclip_utils/prompt_engineering.py --model RN101 --class-set context
+
+```
